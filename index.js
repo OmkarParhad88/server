@@ -37,13 +37,13 @@ app.post("/signin", (req, res) => {
   internshipModel.findOne({ email: email })
     .then(user => {
       if (user) {
-        dcrypt.compare(password, user.password, (error, response) => {
+        bcrypt.compare(password, user.password, (error, response) => {
           if (response) {
             const token = jwt.sign({ email: user.email }, "jwt-secret-key", { expiresIn: "1d" })
             res.cookie("token", token);
-            res.json("Success");
+            res.json("Login Success");
           } else {
-            res.json("the password in incorrect")
+            res.json("The password in incorrect")
           }
         })
       } else {
